@@ -1,5 +1,7 @@
 <?php namespace Config;
 
+use CodeIgniter\Debug\Toolbar\Collectors\Routes;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -30,7 +32,32 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+// ===== ATUR CONTROLLER / AKSES URL
 $routes->get('/', 'Home::index');
+// $routes->MethodRequest('/urlcontroller','namaController::NamaMethod');
+$routes->get('/coba','Coba::index');
+
+// === ROUTE Modification ====
+// syaratnya harus diperhatikan method controller index dan lainnya
+$routes->get('/coba/index','Coba::index');
+$routes->get('/coba/about','Coba::about');
+// (:num) = angka
+// (:alpha) = abcde
+// (:alphanum) = abcde+angka
+// (:segment) = apapun kecuali /
+// $routes->get('/coba/(:any)/(:num)', 'Coba::about/$1/$2');
+$routes->get('/coba/(:any)', 'Coba::about/$1');
+$routes->get('/coba/(:any)/(:num)', 'Coba::about/$1/$2');
+
+$routes->get('/users','Admin\Users::index');
+
+
+// === ROUTE anon function ===
+$routes->get('/test', function (){
+	echo "anonymous function ";
+});
+
 
 /**
  * --------------------------------------------------------------------
