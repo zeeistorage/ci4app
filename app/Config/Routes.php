@@ -34,7 +34,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 
 // ===== ATUR CONTROLLER / AKSES URL
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Pages::index');
 // $routes->MethodRequest('/urlcontroller','namaController::NamaMethod');
 $routes->get('/coba','Coba::index');
 
