@@ -8,9 +8,9 @@ class Pages extends BaseController
             'judul' => "Home"
         ];
         
-        echo view('layout/header', $data);
-		echo view('pages/home');
-        echo view('layout/footer');
+        // echo view('layout/header', $data);
+		return view('pages/home', $data);
+        // echo view('layout/footer');
     }
     
     public function about(){ 
@@ -18,9 +18,9 @@ class Pages extends BaseController
             'judul' => "About"
         ];
         
-        echo view('layout/header', $data);
-        echo view('pages/about');
-        echo view('layout/footer');
+        // echo view('layout/header', $data);
+        return view('pages/about', $data);
+        // echo view('layout/footer');
     }
 
 	//--------------------------------------------------------------------
