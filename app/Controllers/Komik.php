@@ -27,16 +27,26 @@ class Komik extends BaseController
 
 		// ============== Konek DB Pakai Model ==============
 		// ==================================================
-		$komik 	= $this->komikModel->findAll(); // SELECT * FROM nama tabel di komik model
+		// $komik 	= $this->komikModel->findAll(); // SELECT * FROM nama tabel di komik model
 		
 		$data = [
 			'judul' => 'Daftar Komik',
-			'komik'	=> $komik
+			'komik'	=> $this->komikModel->getKomik()
 		];
 		
 		
 
 		return view('komik/index',$data);
+	}
+
+	public function detail($slug){
+		$komik = $this->komikModel->getKomik($slug);
+		$data = [
+			'judul' => 'Detail',
+			'komik'	=> $komik
+		];
+
+		return view('komik/detail',$data);
 	}
 
 	//--------------------------------------------------------------------

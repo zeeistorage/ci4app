@@ -8,7 +8,7 @@ class KomikModel extends Model
     protected $primaryKey = 'id';   //set prymari key
     protected $useTimestamps = true; // untuk tabel created_at dan update_at
 
-    
+    // ========= ATRIBUTE BOLEH DI PAKE OR NOT ===============
     // protected $returnType     = 'array';
     // protected $useSoftDeletes = true;
     // protected $allowedFields = ['name', 'email'];
@@ -19,4 +19,12 @@ class KomikModel extends Model
     // protected $validationRules    = [];
     // protected $validationMessages = [];
     // protected $skipValidation     = false;
+    // =======================================================
+
+    public function getKomik($slug = false){
+        if ($slug == false) {
+            return $this->findAll(); // Select * nama tabel protected di model
+        }
+        return $this->where(['slug'=>$slug])->first();
+    }
 }
