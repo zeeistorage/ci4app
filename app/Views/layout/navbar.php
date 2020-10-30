@@ -17,6 +17,9 @@
                     <a class="nav-link" href="/pages/kontak">Kontak</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/komik">Komik</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>

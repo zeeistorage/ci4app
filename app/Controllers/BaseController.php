@@ -41,6 +41,11 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		// $this->session = \Config\Services::session();
+
+		
+		// ======== SHARE CONTROLLER ===============
+		// ======== $this->NamaVariabel = new \App\Models\NamaModel(); =================
+		// $this->komikModel = new \App\Models\KomikModel(); // Jika dipakai untuk semua
 	}
 
 }
