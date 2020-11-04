@@ -31,7 +31,9 @@ class Komik extends BaseController
 		
 		$data = [
 			'judul' => 'Daftar Komik',
-			'komik'	=> $this->komikModel->getKomik()
+			'komik'	=> $this->komikModel->getKomik(),
+			'validation'=> \Config\Services::validation(),
+			
 		];
 		
 		
@@ -55,13 +57,42 @@ class Komik extends BaseController
 	}
 
 	public function create(){
+		$valid = \Config\Services::validation();
+		if ($valid) {
+			// $statusnya ="ada";
+			dd(session());
+		}else{
+			dd(session());
+			// $statusnya="no";
+			// echo session();
+		}
 		$data = [
-			'judul' => 'tambah data'
+			'judul' 	=> 'tambah data',
+			'validation'=> \Config\Services::validation(),
 		];
 		
 	}
 
 	public function save(){
+		// ========== VALIDATION ============
+		if (!$this->validate([
+			
+			'judul' => [
+				'rules'		=> 'required|is_unique[komik.judul]',
+				'errors'	=> [
+					'required'	=> '{field} komik harus diisi',
+					'is_unique'	=> '{field} komik sudah terdaftar'
+				]
+			]
+		])) {
+			// JIKA SALAH
+			$validation = \Config\Services::validation();
+			$statusnya  = 'gagal';
+			session()->setFlashdata('status','Gagal');
+			return redirect()->to('/komik')->withInput()->with('validation',$validation);
+		}
+		// ==========END VALIDATION =========
+
 		// dd($this->request->getPost()); 
 		// echo var_dump($_POST);
 		// ========AMBIL DATA DARI METHOT =============
@@ -76,10 +107,10 @@ class Komik extends BaseController
 			'penerbit'	=> $this->request->getVar('penerbit'),
 			'sampul'	=> $this->request->getVar('sampul')
 		]);
-		
+		$statusnya = 'berhasil';
 		session()->setFlashdata('pesan','Berhasil');
 
-		return redirect()->to('/komik');
+		return redirect()->to('/komik')->with('statusnya',$statusnya);
 
 	}
 

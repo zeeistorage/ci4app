@@ -11,7 +11,6 @@
                 Tambah Data
             </button>
 
-
             <?php if (session()->getFlashdata('pesan')) : ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?= session()->getFlashdata('pesan'); ?>
@@ -19,6 +18,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
+            <?php endif;?>
+            <?php if (session()->getFlashdata('status')) : ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <h5>Upss Error..</h5>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+
+                <script type="text/javascript">
+                    $(window).on('load',function(){
+                        $('#staticBackdrop').modal('show');
+                    });
+                </script>
             <?php endif;?>
 
             <!-- Modal -->
@@ -41,25 +54,28 @@
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 col-form-label">Judul</label>
                                     <div class="col-sm-10">
-                                        <input type="text" name='judul' class="form-control" id="judul">
+                                        <input type="text" name='judul' class="form-control <?= ($validation->hasError('judul')) ? 'is-invalid' : '' ; ?>" id="judul" autofocus value="<?= old('judul'); ?>">
+                                        <div class="invalid-feedback" style="display: block;">
+                                            <?= $validation->getError('judul'); ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 col-form-label">Penulis</label>
                                     <div class="col-sm-10">
-                                        <input type="text" name='penulis' class="form-control" id="penulis">
+                                        <input type="text" name='penulis' class="form-control" id="penulis" value="<?= old('penulis'); ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 col-form-label">Penerbit</label>
                                     <div class="col-sm-10">
-                                        <input type="text" name='penerbit' class="form-control" id="penerbit">
+                                        <input type="text" name='penerbit' class="form-control" id="penerbit" value="<?= old('penerbit'); ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 col-form-label">Sampul</label>
                                     <div class="col-sm-10">
-                                        <input type="text" name='sampul' class="form-control" id="sampul">
+                                        <input type="text" name='sampul' class="form-control" id="sampul"  value="<?= old('sampul'); ?>">
                                     </div>
                                 </div>
 
