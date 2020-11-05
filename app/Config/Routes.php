@@ -49,7 +49,8 @@ $routes->get('/coba/about','Coba::about');
 // (:num) = angka
 // (:alpha) = abcde
 // (:alphanum) = abcde+angka
-// (:segment) = apapun kecuali /
+// (:segment) = apapun + /
+// (:any) = apapun tnp /
 // $routes->get('/coba/(:any)/(:num)', 'Coba::about/$1/$2');
 // ==========================================================
 $routes->get('/coba/(:any)', 'Coba::about/$1');
@@ -58,7 +59,9 @@ $routes->get('/coba/(:any)/(:num)', 'Coba::about/$1/$2');
 $routes->get('/users','Admin\Users::index');
 
 $routes->get('/komik/create','Komik::create');
-$routes->get('/komik/(:segment)','Komik::detail/$1');
+$routes->get('/komik/edit','Komik::edit');
+$routes->delete('/komik/(:num)', 'Komik::delete/$1');
+$routes->get('/komik/(:any)','Komik::detail/$1');
 
 
 // ========= ROUTE anon function =======
