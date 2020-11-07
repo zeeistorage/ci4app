@@ -12,9 +12,9 @@
                 </button>
             </div>
             <script type="text/javascript">
-                $(window).on('load',function(){
-                    $('#staticBackdrop').modal('show');
-                });
+            $(window).on('load', function() {
+                $('#staticBackdrop').modal('show');
+            });
             </script>
 
             <?php endif;?>
@@ -62,7 +62,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/komik/update" method="post">
+                <form action="/komik/update" method="post" enctype="multipart/form-data">
                     <!-- KE AMANAN XSS -->
                     <?= csrf_field(); ?>
                     <!-- KE AMANAN XSS -->
@@ -72,6 +72,7 @@
                         <div class="col-sm-10">
                             <input type="hidden" name="id" id="id" value="<?= old('id'); ?>">
                             <input type="hidden" name="slug" id="slug" value="<?= old('slug'); ?>">
+                            <input type="hidden" name="sampullama" id="sampullama" value="<?= old('sampul'); ?>">
                             <input type="text" id="judul" name='judul'
                                 class="form-control <?= ($validation->hasError('judul')) ? 'is-invalid' : '' ; ?>"
                                 autofocus value="<?= (old('judul')) ? old('judul') : $komik['judul'] ?>">
@@ -96,9 +97,19 @@
                     </div>
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Sampul</label>
-                        <div class="col-sm-10">
-                            <input type="text" name='sampul' class="form-control" id="sampul"
-                                value="<?= old('sampul'); ?>">
+                        <div class="col-lg-2-sm-2-cs-2">
+                            <img src="/img/default.jpg" class="img-thumbnail img-preview" style="height: 100px;">
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="custom-file">
+                                <input type="file" id="sampul" name="sampul"
+                                    class="custom-file-input <?= ($validation->hasError('sampul')) ? 'is-invalid' : '' ; ?>"
+                                    onchange="previewimg()">
+                                <div class="invalid-feedback" style="display: block;">
+                                    <?= $validation->getError('sampul'); ?>
+                                </div>
+                                <label class="custom-file-label" for="sampul">Choose file</label>
+                            </div>
                         </div>
                     </div>
 
@@ -111,10 +122,29 @@
         </div>
     </div>
 </div>
+<!--  PREVIEW IMAGE -->
+<script>
+function previewimg() {
+    const sampul = document.querySelector('#sampul')
+    const sampulLabel = document.querySelector('.custom-file-label')
+    const imgPreview = document.querySelector('.img-preview')
+
+    sampulLabel.textContent = sampul.files[0].name
+
+    const filesampul = new FileReader()
+    filesampul.readAsDataURL(sampul.files[0])
+
+    filesampul.onload = function(e) {
+        imgPreview.src = e.target.result
+    }
+}
+</script>
 
 <script>
 function edit(id) {
     var slug = $('#slugnya').data('slug');
+    const sampulLabel = document.querySelector('.custom-file-label')
+    const imgPreview = document.querySelector('.img-preview')
     $.ajax({
         type: "get",
         url: "<?= base_url('komik/edit')?>",
@@ -126,7 +156,9 @@ function edit(id) {
             $("#judul").val(datanya.judul)
             $("#penulis").val(datanya.penulis)
             $("#penerbit").val(datanya.penerbit)
-            $("#sampul").val(datanya.sampul)
+            $("#sampullama").val(datanya.sampul)
+            imgPreview.src = '/img/' + datanya.sampul
+            sampulLabel.textContent = datanya.sampul
             $("#slug").val(datanya.slug)
             openmodal()
         }

@@ -46,7 +46,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/komik/save" method="post">
+                            <form id="tambahdata" action="/komik/save" method="post" enctype="multipart/form-data">
                                 <!-- KE AMANAN XSS -->
                                 <?= csrf_field(); ?>
                                 <!-- KE AMANAN XSS -->
@@ -74,8 +74,17 @@
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 col-form-label">Sampul</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name='sampul' class="form-control" id="sampul"  value="<?= old('sampul'); ?>">
+                                    <div class="col-lg-2-sm-2-cs-2">
+                                        <img src="/img/default.jpg" class="img-thumbnail img-preview" style="height: 100px;" >
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="custom-file">
+                                            <input type="file" id="sampul" name="sampul" class="custom-file-input <?= ($validation->hasError('sampul')) ? 'is-invalid' : '' ; ?>" onchange="previewimg()" >
+                                            <div class="invalid-feedback" style="display: block;">
+                                                <?= $validation->getError('sampul'); ?>
+                                            </div>
+                                            <label class="custom-file-label" for="sampul">Choose file</label>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -88,6 +97,42 @@
                     </div>
                 </div>
             </div>
+            <!--  PREVIEW IMAGE -->
+            <script>
+                function previewimg(){
+                    const sampul = document.querySelector('#sampul')
+                    const sampulLabel = document.querySelector('.custom-file-label')
+                    const imgPreview = document.querySelector('.img-preview')
+
+                    sampulLabel.textContent = sampul.files[0].name
+
+                    const filesampul = new FileReader()
+                    filesampul.readAsDataURL(sampul.files[0])
+
+                    filesampul.onload = function(e){
+                        imgPreview.src = e.target.result
+                    }
+                }
+            </script>
+
+            <!-- <script>
+                $("#tambahdata").submit(function (e) { 
+                    e.preventDefault();
+                    var data = $("#tambahdata").serialize()
+                    $.ajax({
+                        type: "post",
+                        url: "<?=base_url('/komik/save')?>",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        
+                        success: function (response) {
+                            
+                        }
+                    });
+                });
+            </script> -->
 
             <table class="table">
                 <thead>
